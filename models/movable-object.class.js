@@ -58,17 +58,18 @@ class MovableObject {
 
 
     moveRight() {
-        console.log('Moving Right');
+        this.x += this.speed;
+        
+        
     }
 
 
     moveLeft() {
-        setInterval(() => {
-            if (this.x <= -450) {
-                this.x = 700
-            }
-
-            this.x -= this.speed;
-        }, 1000 / 60);
+        this.x -= this.speed;
+        
+    }
+    // Junus hat die funktion doppelt// auf dem charakter objekt
+    jump() {
+        this.speedY = 30;
     }
 }
