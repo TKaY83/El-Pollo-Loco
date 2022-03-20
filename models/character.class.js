@@ -2,7 +2,7 @@ class Character extends MovableObject {
     y = 80;
     x = 20;
     height = 250;
-    width = 150;
+    width = 100;
     speed = 4;
     IMAGES_WALKING = [
         // 'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/IDLE/I-1.png',
