@@ -10,6 +10,7 @@ class MovableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 2.5;
+    energy = 100;
 
     applyGravity() {
         setInterval(() => {
@@ -85,5 +86,33 @@ class MovableObject {
     // Junus hat die funktion doppelt// auf dem charakter objekt
     jump() {
         this.speedY = 30;
+    }
+
+
+    // isColliding.isColliding(chicken)
+    isColliding(mo) {
+        // if (character.x + character.width > chicken.x &&
+        //     character.y + character.height > chicken.y &&
+        //     character.x < chicken.x &&
+        //     character.y < chicken.y + chicken.height) {
+
+        // }
+        return this.x + this.width > mo.x &&
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.height;
+
+    }
+
+
+    hit(){
+        this.energy -= 5;
+        if (this.energy < 0){
+            this.energy = 0;
+        }
+    }
+
+    isDead(){
+        return this.energy == 0;
     }
 }
