@@ -18,15 +18,12 @@ class MovableObject extends DrawableObject{
     }
 
     isAboveGround() {
-        return this.y < 180
+        if(this instanceof ThrowableObject){
+            return true;
+        } else {
+            return this.y < 180;
+        }
     }
-
-
-
-
-
-
-
 
     playAnimation(images) {
         let i = this.currentImage % images.length; // let i = 0 / 6; = 0, Rest 0 //0 / 5; = 0, Rest 5 // 6 / 6; = 1, Rest 0
@@ -83,7 +80,7 @@ class MovableObject extends DrawableObject{
     isHurt(){
         let timePassed = new Date().getTime() - this.lastHit;
         timePassed = timePassed / 1000
-        return timePassed < 0.3;
+        return timePassed < 0.5;
     }
 
     isDead(){

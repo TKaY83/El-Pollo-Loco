@@ -14,3 +14,8 @@ canvas{
 h1{
     text-shadow:5px 7px 3px #807f7f9a;
 }
+
+.links{
+    text-align:center;
+    color: rgba(0, 0, 0, 0.2);
+}

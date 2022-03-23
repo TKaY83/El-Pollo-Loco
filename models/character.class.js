@@ -50,7 +50,7 @@ class Character extends MovableObject {
 
 
     constructor() {
-        super().loadImage(this.IMAGES_WALKING[0])
+        super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
@@ -78,7 +78,7 @@ class Character extends MovableObject {
                 this.walking_sound.play();
             }
 
-            if (this.world.keyboard.SPACE && !this.isAboveGround()){
+            if (this.world.keyboard.UP && !this.isAboveGround()){
                 this.jump();
             }
             this.world.camera_x = -this.x + 50;
