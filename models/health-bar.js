@@ -1,4 +1,4 @@
-class StatusBar extends DrawableObject {
+class HealthBar extends DrawableObject {
     IMAGES = [
         'img/7.Marcadores/Barra/Marcador vida/verde/0_.png',
         'img/7.Marcadores/Barra/Marcador vida/verde/20_.png',
@@ -25,8 +25,6 @@ class StatusBar extends DrawableObject {
         this.percentage = percentage;// => 0....5
         let path = this.IMAGES[this.resolveImageIndex()];
         this.img = this.imageCache[path];
-
-
 
     }
 

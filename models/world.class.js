@@ -6,8 +6,9 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
+    statusBar = new HealthBar();
     ThrowableObjects = [];
+    throw_sound = new Audio('audio/throw.mp3');
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -32,7 +33,10 @@ class World {
     }
 
     checkThrowObjects(){
+        // this.throw_sound.pause();
+        // this.throw_sound.currentTime = 0;
         if(this.keyboard.SPACE){
+            // this.throw_sound.play();
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.ThrowableObjects.push(bottle);
         }
