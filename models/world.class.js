@@ -6,7 +6,8 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new HealthBar();
+    healthBar = new HealthBar();
+    coinBar = new CoinBar();
     ThrowableObjects = [];
     throw_sound = new Audio('audio/throw.mp3');
 
@@ -29,7 +30,7 @@ class World {
 
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 200);
+        }, 100);
     }
 
     checkThrowObjects(){
@@ -46,7 +47,8 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if(this.character.isColliding(enemy) ){
                 this.character.hit();
-                this.statusBar.setPercentage(this.character.energy)
+                this.healthBar.setPercentage(this.character.energy);
+                this.coinBar.setPercentage(this.character.energy);
                 
             }
         });
@@ -65,12 +67,14 @@ class World {
         this.addObjectsToMap(this.ThrowableObjects);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.coins);
 
         this.addToMap(this.character);
 
 
         this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.statusBar);
+        this.addToMap(this.healthBar);
+        this.addToMap(this.coinBar);
         this.ctx.translate(this.camera_x, 0);
         
 
