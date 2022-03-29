@@ -42,7 +42,7 @@ window.addEventListener('keydown', (event) => {
     }
 
     // KEYBARD LOG
-    console.log(event);   
+    // console.log(event);   
 
 });
 

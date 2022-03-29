@@ -37,9 +37,11 @@ class World {
         // this.throw_sound.pause();
         // this.throw_sound.currentTime = 0;
         if(this.keyboard.SPACE){
-            // this.throw_sound.play();
+            this.throw_sound.play();
+            this.throw_sound.volume = 0.2;
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.ThrowableObjects.push(bottle);
+
         }
     }
 
