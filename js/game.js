@@ -37,6 +37,10 @@ window.addEventListener('keydown', (event) => {
         keyboard.SPACE = true;
     }
 
+    if(event.keyCode == 17){    // Key CONTROL
+        keyboard.STRG = true;
+    }
+
     // KEYBARD LOG
     // console.log(event);   
 
@@ -62,6 +66,10 @@ window.addEventListener('keyup', (event) => {
 
     if(event.keyCode == 32){    // Key SPACE
         keyboard.SPACE = false;
+    }
+
+    if(event.keyCode == 17){    // Key CONTROL
+        keyboard.STRG = false;
     }
 
 });
