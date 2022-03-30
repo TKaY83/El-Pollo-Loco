@@ -8,8 +8,8 @@ function init() {
     world = new World(canvas, keyboard);
     ctx = canvas.getContext('2d');
 
-    console.log('My Char is', world.character);
-    console.log('My Cicken is',world.enemies)
+    // console.log('My Char is', world.character);
+    // console.log('My Cicken is',world.enemies)
 
 
 }
@@ -36,7 +36,7 @@ window.addEventListener('keydown', (event) => {
     if(event.keyCode == 32){    // Key SPACE
         keyboard.SPACE = true;
     }
-    
+
     // KEYBARD LOG
     // console.log(event);   
 
