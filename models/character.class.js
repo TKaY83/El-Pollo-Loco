@@ -56,6 +56,19 @@ class Character extends MovableObject {
         'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/IDLE/I-10.png',
     ];
 
+    IMAGES_LONG_IDLE = [
+        'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/LONG_IDLE/I-11.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/LONG_IDLE/I-12.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/LONG_IDLE/I-13.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/LONG_IDLE/I-14.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/LONG_IDLE/I-15.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/LONG_IDLE/I-16.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/LONG_IDLE/I-17.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/LONG_IDLE/I-18.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/LONG_IDLE/I-19.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/1.IDLE/LONG_IDLE/I-20.png'
+    ];
+
     world;
     walking_sound = new Audio('audio/running.mp3');
     jump_sound = new Audio('audio/jump.mp3')
@@ -69,6 +82,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_LONG_IDLE);
         this.applyGravity();
         this.animate();
 
@@ -81,6 +95,7 @@ class Character extends MovableObject {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
+                this.walking_sound.volume = 0.9;
                 this.walking_sound.play();
             }
 
@@ -91,6 +106,7 @@ class Character extends MovableObject {
             if (this.world.keyboard.LEFT && this.x > -665) {
                 this.moveLeft();
                 this.otherDirection = true;
+                this.walking_sound.volume = 0.9;
                 this.walking_sound.play();
             }
 
@@ -101,18 +117,21 @@ class Character extends MovableObject {
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
                 this.currentImage = 0;
-                this.jump_sound.volume = 0.2;
+                this.jump_sound.volume = 0.1;
                 this.jump_sound.play();
-                
+
             }
             this.world.camera_x = -this.x + 50;
         }, 1000 / 60);
 
-        setInterval(() => {
-            if (this.world.keyboard.LEFT == false || this.world.keyboard.RIGHT == false || this.world.keyboard.UP == false) {
-                this.playAnimation(this.IMAGES_IDLE);
-            }
-        }, 200);
+        // setInterval(() => {
+        //     if (this.world.keyboard.LEFT == false || this.world.keyboard.RIGHT == false || this.world.keyboard.UP == false) {
+        //         this.playAnimation(this.IMAGES_IDLE);
+        //     }
+        //     if (this.world.keyboard.LEFT == false || this.world.keyboard.RIGHT == false || this.world.keyboard.UP == false || this.world.keyboard.SPACE == false ) {
+        //         this.playAnimation(this.IMAGES_IDLE);
+        //     }
+        // }, 200);
 
 
         setInterval(() => {
@@ -122,11 +141,22 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_WALKING);
+            } else if (this.bored()) {
+                this.playAnimation(this.IMAGES_LONG_IDLE);
             } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
+                this.playAnimation(this.IMAGES_IDLE);
             }
-        }, 200);
+
+        }
+
+            , 200);
+    }
+
+    bored() {
+        let timePassed = new Date().getTime() - lastAction;
+        timePassed = timePassed / 1000
+        return timePassed > 5;
     }
 }
