@@ -4,16 +4,20 @@ class World {
     level = level1;
     canvas;
     ctx;
+    bottleAmount = 0;
     keyboard;
     lastAction;
     camera_x = 0;
     healthBar = new HealthBar();
     coinBar = new CoinBar();
-    ThrowableObjects = [];
+    bottleBar = new BottleBar();
+    throwableObjects = [];
     throw_sound = new Audio('audio/throw.mp3');
-    background_music = new Audio('audio/background_music.mp3');
+    // background_music = new Audio('audio/background_music.mp3');
+    collecting_coin_sound = new Audio('audio/coin.mp3');
+    collecting_bottle_sound = new Audio('audio/collect-bottle.mp3');
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard,) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
@@ -33,22 +37,28 @@ class World {
 
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 100); 4
-        this.background_music.play();
-        this.background_music.volume = 0.04;
-        this.background_music.loop = true;
+        }, 100);
+        // this.background_music.play();
+        // this.background_music.volume = 0.04;
+        // this.background_music.loop = true;
     }
 
     checkThrowObjects() {
-        // this.throw_sound.pause();
-        // this.throw_sound.currentTime = 0;
-        if (this.keyboard.SPACE) {
-            this.throw_sound.play();
-            this.throw_sound.volume = 0.1;
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-            this.ThrowableObjects.push(bottle);
+        if (this.bottleAmount > 0) {
+            if (this.keyboard.SPACE) {
+                this.throw_sound.currentTime = 0;
+                this.throw_sound.play();
+                this.throw_sound.volume = 0.1;
+                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this);
+                this.throwableObjects.push(bottle);
+                this.bottleAmount--;
+                this.character.isThrowingBottle();
+                this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
 
+
+            }
         }
+
     }
 
     checkCollisions() {
@@ -56,17 +66,28 @@ class World {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
-                
-
             }
         });
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
                 this.level.coins.splice(this.level.coins.indexOf(coin), 1);
-                this.character.isCollecting();
+                this.character.isCollectingCoin();
+                this.collecting_coin_sound.currentTime = 0;
+                this.collecting_coin_sound.play();
+                this.collecting_coin_sound.volume = 0.05;
                 this.coinBar.setPercentage(this.character.coinsCollected);
             }
-            
+
+        });
+        this.level.collectableBottle.forEach(bottle => {
+            if (this.character.isColliding(bottle)) {
+                this.bottleAmount++;
+                this.level.collectableBottle.splice(this.level.collectableBottle.indexOf(bottle), 1);
+                this.character.isCollectingBottle();
+                this.collecting_bottle_sound.currentTime = 0;
+                this.collecting_bottle_sound.play();
+                this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
+            }
         });
     }
 
@@ -78,19 +99,19 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
 
-
-
-        this.addObjectsToMap(this.ThrowableObjects);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.collectableBottle);
+        this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.level.smallChicken);
 
         this.addToMap(this.character);
-
 
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
+        this.addToMap(this.bottleBar);
         this.ctx.translate(this.camera_x, 0);
 
 

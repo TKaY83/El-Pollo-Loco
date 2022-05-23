@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    y = 80;
+    y = 70;
     x = 20;
     height = 250;
     width = 100;
