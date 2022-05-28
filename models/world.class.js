@@ -16,6 +16,7 @@ class World {
     // background_music = new Audio('audio/background_music.mp3');
     collecting_coin_sound = new Audio('audio/coin.mp3');
     collecting_bottle_sound = new Audio('audio/collect-bottle.mp3');
+    hurt_sound = new Audio('audio/hurt.mp3')
 
     constructor(canvas, keyboard,) {
         this.ctx = canvas.getContext('2d');
@@ -37,7 +38,7 @@ class World {
 
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 100);
+        }, 50);
         // this.background_music.play();
         // this.background_music.volume = 0.04;
         // this.background_music.loop = true;
@@ -54,18 +55,31 @@ class World {
                 this.bottleAmount--;
                 this.character.isThrowingBottle();
                 this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
-
-
             }
         }
-
     }
 
     checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+        this.level.bigChicken.forEach((bigEnemy) => {
+            if(this.character.isColliding(bigEnemy) && this.character.isAboveGround()){
+                this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
+            }
+            if (this.character.isColliding(bigEnemy) && ! this.character.isAboveGround()) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
+                this.hurt_sound.play();
+                this.hurt_sound.volume = 0.2;
+
+            }
+        });
+
+        this.level.smallChicken.forEach((smallEnemy) => {
+            if (this.character.isColliding(smallEnemy)) {
+                this.character.hit();
+                this.healthBar.setPercentage(this.character.energy);
+                this.hurt_sound.play();
+                this.hurt_sound.volume = 0.2;
+                
             }
         });
         this.level.coins.forEach((coin) => {
@@ -99,7 +113,8 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
 
-        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.bigChicken);
+        this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.collectableBottle);

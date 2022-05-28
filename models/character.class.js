@@ -134,9 +134,13 @@ class Character extends MovableObject {
         // }, 200);
 
 
-        setInterval(() => {
+        let characterImages = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+                setTimeout(() => {
+                    clearInterval(characterImages);
+                }, 1000);
+
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {

@@ -1,4 +1,4 @@
-class MovableObject extends DrawableObject{
+class MovableObject extends DrawableObject {
     speed = 0.10;
     otherDirection = false;
     speedY = 0;
@@ -19,7 +19,7 @@ class MovableObject extends DrawableObject{
     }
 
     isAboveGround() {
-        if(this instanceof ThrowableObject){
+        if (this instanceof ThrowableObject) {
             return true;
         } else {
             return this.y < 180;
@@ -56,47 +56,49 @@ class MovableObject extends DrawableObject{
 
     // isColliding.isColliding(chicken)
     isColliding(mo) {
-        // if (character.x + character.width > chicken.x &&
-        //     character.y + character.height > chicken.y &&
-        //     character.x < chicken.x &&
-        //     character.y < chicken.y + chicken.height) {
-
-        // }
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height;
+        if (this instanceof Character) {
+            return this.x + this.width > mo.x &&
+                this.y + this.height > mo.y &&
+                this.x < mo.x &&
+                this.y + 130 < mo.y + mo.height;
+        } else {
+            return this.x + this.width > mo.x &&
+                this.y + this.height > mo.y &&
+                this.x < mo.x &&
+                this.y < mo.y + mo.height;
+        }
 
     }
 
-    hit(){
+    hit() {
         this.energy -= 5;
-        if (this.energy < 0){
+        if (this.energy < 0) {
             this.energy = 0;
-        } else{
+        } else {
             this.lastHit = new Date().getTime();
         }
     }
 
-    isHurt(){
+    isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
         timePassed = timePassed / 1000
         return timePassed < 0.5;
     }
 
-    isDead(){
+    isDead() {
         return this.energy == 0;
     }
 
-    isCollectingCoin(){
+    isCollectingCoin() {
         this.coinsCollected += 11;
     }
 
-    isCollectingBottle(){
+    isCollectingBottle() {
         this.bottlesCollectedPercent += 11;
     }
 
-    isThrowingBottle(){
+    isThrowingBottle() {
         this.bottlesCollectedPercent -= 11;
     }
+
 }
