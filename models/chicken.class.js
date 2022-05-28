@@ -2,6 +2,8 @@ class Chicken extends MovableObject {
     y = 365;
     height = 60;
     width = 45;
+    dead = false;
+    dead_animation = false;
     IMAGES_WALKING = [
         'img/3.Secuencias_Enemy_básico/Versión_Gallinita (estas salen por orden de la gallina gigantona)/1.Ga_paso_derecho.png',
         'img/3.Secuencias_Enemy_básico/Versión_Gallinita (estas salen por orden de la gallina gigantona)/2-Ga_centro.png',
@@ -29,10 +31,24 @@ class Chicken extends MovableObject {
             this.moveLeft();
             // this.otherDirection = false;
         }, 1000 / 60);
-        
+
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
+            if (!this.dead_animation) {
+                this.playAnimation(this.IMAGES_WALKING);
+            } else{
+                this.playAnimation(this.IMAGES_DEAD);
+            }
+
         }, 150)
+    }
+
+    deadAnimation(){
+        this.dead_animation = true;
+        
+        setTimeout(() => {
+            this.dead_animation = false;
+            this.dead = true;
+        }, 500);
     }
 
 }

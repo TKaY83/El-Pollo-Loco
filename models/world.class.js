@@ -61,8 +61,11 @@ class World {
 
     checkCollisions() {
         this.level.bigChicken.forEach((bigEnemy) => {
-            if(this.character.isColliding(bigEnemy) && this.character.isAboveGround()){
+            if(bigEnemy.dead){
                 this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
+            }
+            if(this.character.isColliding(bigEnemy) && this.character.isAboveGround()){
+                bigEnemy.deadAnimation();
             }
             if (this.character.isColliding(bigEnemy) && ! this.character.isAboveGround()) {
                 this.character.hit();
