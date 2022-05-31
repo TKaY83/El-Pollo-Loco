@@ -13,7 +13,7 @@ class World {
     bottleBar = new BottleBar();
     throwableObjects = [];
     throw_sound = new Audio('audio/throw.mp3');
-    // background_music = new Audio('audio/background_music.mp3');
+    background_music = new Audio('audio/background_music.mp3');
     collecting_coin_sound = new Audio('audio/coin.mp3');
     collecting_bottle_sound = new Audio('audio/collect-bottle.mp3');
     hurt_sound = new Audio('audio/hurt.mp3')
@@ -38,10 +38,15 @@ class World {
 
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 50);
-        // this.background_music.play();
-        // this.background_music.volume = 0.04;
-        // this.background_music.loop = true;
+        }, 100);
+
+        setInterval(() => {
+            let interval = this.checkHitingEndboss();
+            clearInterval(interval);
+        }, 250);
+        this.background_music.play();
+        this.background_music.volume = 0.04;
+        this.background_music.loop = true;
     }
 
     checkThrowObjects() {
@@ -57,22 +62,22 @@ class World {
                 this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
             }
         }
+
     }
 
     checkCollisions() {
         this.level.bigChicken.forEach((bigEnemy) => {
-            if(bigEnemy.dead){
+            if (bigEnemy.dead) {
                 this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
             }
-            if(this.character.isColliding(bigEnemy) && this.character.isAboveGround()){
+            if (this.character.isColliding(bigEnemy) && this.character.isAboveGround() && this.character.speedY < 0) {
                 bigEnemy.deadAnimation();
             }
-            if (this.character.isColliding(bigEnemy) && ! this.character.isAboveGround()) {
-                this.character.hit();
+            if (this.character.isColliding(bigEnemy) && !this.character.isAboveGround() && !bigEnemy.dead && !bigEnemy.dead_animation) {
+                this.character.hit(); 
                 this.healthBar.setPercentage(this.character.energy);
                 this.hurt_sound.play();
                 this.hurt_sound.volume = 0.2;
-
             }
         });
 
@@ -82,7 +87,7 @@ class World {
                 this.healthBar.setPercentage(this.character.energy);
                 this.hurt_sound.play();
                 this.hurt_sound.volume = 0.2;
-                
+
             }
         });
         this.level.coins.forEach((coin) => {
@@ -106,8 +111,20 @@ class World {
                 this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
             }
         });
+
+
+
+
     }
 
+    checkHitingEndboss() {
+        this.throwableObjects.forEach(throwableObject => {
+            if (this.level.endboss[0].isColliding(throwableObject)) {
+                console.log(this.level.endboss[0].energy);
+                this.level.endboss[0].energy -= 20;
+            }
+        });
+    }
 
 
     draw() {

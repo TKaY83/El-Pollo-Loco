@@ -59,7 +59,7 @@ class MovableObject extends DrawableObject {
         if (this instanceof Character) {
             return this.x + this.width > mo.x &&
                 this.y + this.height > mo.y &&
-                this.x < mo.x &&
+                this.x < mo.x + mo.width &&
                 this.y + 130 < mo.y + mo.height;
         } else {
             return this.x + this.width > mo.x &&

@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
-body{
+
+body {
+    margin: 0;
     background-color: rgb(251, 215, 157);
     color: rgb(160, 34, 10);
     font-family: 'Shadows Into Light', cursive;
@@ -7,16 +9,42 @@ body{
     flex-direction: column;
     align-items: center;
 }
-canvas{
+
+canvas {
     background-color: black;
 }
 
 
-h1{
-    text-shadow:5px 7px 3px #807f7f9a;
+h1 {
+    text-shadow: 5px 7px 3px #807f7f9a;
 }
 
-.links{
-    text-align:center;
+.links {
+    text-align: center;
     color: rgba(0, 0, 0, 0.2);
+}
+
+.start-screen {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-image: url('img/9.Intro _ Outro Image/Start Screen/Opción 1.png');
+    display: flex;
+    justify-content: center;
+    background-size: cover;
+    background-attachment: fixed;
+
+}
+
+.start-btn {
+    cursor: pointer;
+    border-color: rgb(199, 103, 88);
+    margin-top: 120px;
+    height: 90px;
+    width: 160px;
+    border-radius: 50%;
+    border-style: none;
+
 }

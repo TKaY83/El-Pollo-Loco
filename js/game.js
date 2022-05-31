@@ -15,6 +15,11 @@ function init() {
 
 }
 
+function startGame(){
+    document.getElementById('start-screen').style = 'display: none;';
+    init();
+}
+
 
 window.addEventListener('keydown', (event) => {
 
