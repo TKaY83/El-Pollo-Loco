@@ -3,7 +3,7 @@ class Character extends MovableObject {
     x = 20;
     height = 250;
     width = 100;
-    speed = 4;
+    speed = 14;
 
     IMAGES_WALKING = [
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png',
@@ -89,7 +89,6 @@ class Character extends MovableObject {
     }
 
     animate() {
-
         setInterval(() => {
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -156,6 +155,8 @@ class Character extends MovableObject {
         }
 
             , 200);
+
+
     }
 
     bored() {

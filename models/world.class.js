@@ -22,7 +22,6 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-
         this.draw();
         this.setWorld();
         this.run();
@@ -41,12 +40,13 @@ class World {
         }, 100);
 
         setInterval(() => {
-            let interval = this.checkHitingEndboss();
-            clearInterval(interval);
-        }, 250);
+            let hitAnimation = this.checkHitingEndboss();
+            clearInterval(hitAnimation);
+        }, 350);
         this.background_music.play();
         this.background_music.volume = 0.04;
         this.background_music.loop = true;
+
     }
 
     checkThrowObjects() {
@@ -66,6 +66,8 @@ class World {
     }
 
     checkCollisions() {
+
+
         this.level.bigChicken.forEach((bigEnemy) => {
             if (bigEnemy.dead) {
                 this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
@@ -74,7 +76,7 @@ class World {
                 bigEnemy.deadAnimation();
             }
             if (this.character.isColliding(bigEnemy) && !this.character.isAboveGround() && !bigEnemy.dead && !bigEnemy.dead_animation) {
-                this.character.hit(); 
+                this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
                 this.hurt_sound.play();
                 this.hurt_sound.volume = 0.2;
@@ -118,12 +120,24 @@ class World {
     }
 
     checkHitingEndboss() {
-        this.throwableObjects.forEach(throwableObject => {
-            if (this.level.endboss[0].isColliding(throwableObject)) {
-                console.log(this.level.endboss[0].energy);
-                this.level.endboss[0].energy -= 20;
-            }
-        });
+        if(!this.level.endboss.endbossDead){
+            this.throwableObjects.forEach(throwableObject => {
+                if (this.level.endboss[0].isColliding(throwableObject)) {
+                    console.log(this.level.endboss[0].energy);
+                    this.level.endboss[0].energy -= 20;
+                    this.level.endboss[0].bossHitAnimation();
+                }
+    
+                if (this.level.endboss[0].energy == 0) {
+                    this.level.endboss.endbossDead = true;
+                    setTimeout(() => {
+                        this.level.endboss.splice(this.level.endboss[0]);
+                    }, 3000);
+                }
+    
+            });
+        }
+
     }
 
 
