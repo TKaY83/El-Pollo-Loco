@@ -4,8 +4,9 @@ class Endboss extends MovableObject {
     height = 250;
     width = 150;
     y = 190;
-    speed = 8;
+    speed = 25;
     energy = 100;
+    world;
 
     IMAGES_IDLE = [
         'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/1.Caminata/G2.png',
@@ -61,6 +62,8 @@ class Endboss extends MovableObject {
                 this.energy = 0;
                 this.speed = 0;
                 this.endbossDead = true;
+                this.world.keyboard = false;
+                this.world.background_music.pause();
                 setTimeout(() => {
                     document.getElementById('end-screen').style = 'position: absoulute;'
 

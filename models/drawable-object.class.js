@@ -31,7 +31,7 @@ class DrawableObject {
             this.imageCache[path] = img;
         });
     }
-
+    // Draws a frame arround objects to check collision
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
             ctx.beginPath();

@@ -12,6 +12,7 @@ class World {
     coinBar = new CoinBar();
     bottleBar = new BottleBar();
     throwableObjects = [];
+    alreadyThrowed = false;
     throw_sound = new Audio('audio/throw.mp3');
     background_music = new Audio('audio/background_music.mp3');
     collecting_coin_sound = new Audio('audio/coin.mp3');
@@ -29,6 +30,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.level.endboss[0].world = this;
     }
 
 
@@ -37,7 +39,7 @@ class World {
 
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 100);
+        }, 50);
 
         setInterval(() => {
             let hitAnimation = this.checkHitingEndboss();
@@ -51,7 +53,8 @@ class World {
 
     checkThrowObjects() {
         if (this.bottleAmount > 0) {
-            if (this.keyboard.SPACE) {
+            if (this.keyboard.SPACE && this.alreadyThrowed == false) {
+                this.alreadyThrowed = true;
                 this.throw_sound.currentTime = 0;
                 this.throw_sound.play();
                 this.throw_sound.volume = 0.1;
@@ -60,14 +63,15 @@ class World {
                 this.bottleAmount--;
                 this.character.isThrowingBottle();
                 this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
+                setTimeout(() => {
+                    this.alreadyThrowed = false;
+                }, 300);
             }
         }
 
     }
 
     checkCollisions() {
-
-
         this.level.bigChicken.forEach((bigEnemy) => {
             if (bigEnemy.dead) {
                 this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
@@ -78,8 +82,11 @@ class World {
             if (this.character.isColliding(bigEnemy) && !this.character.isAboveGround() && !bigEnemy.dead && !bigEnemy.dead_animation) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
-                this.hurt_sound.play();
-                this.hurt_sound.volume = 0.2;
+                if(!this.character.isDead()){
+                    this.hurt_sound.play();
+                    this.hurt_sound.volume = 0.2;
+                }
+
             }
         });
 
@@ -87,8 +94,10 @@ class World {
             if (this.character.isColliding(smallEnemy)) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
-                this.hurt_sound.play();
-                this.hurt_sound.volume = 0.2;
+                if(!this.character.isDead()){
+                    this.hurt_sound.play();
+                    this.hurt_sound.volume = 0.2;
+                }
 
             }
         });
@@ -113,31 +122,32 @@ class World {
                 this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
             }
         });
-
-
-
-
     }
 
     checkHitingEndboss() {
-        if(!this.level.endboss.endbossDead){
+        if (!this.level.endboss.endbossDead) {
             this.throwableObjects.forEach(throwableObject => {
                 if (this.level.endboss[0].isColliding(throwableObject)) {
                     console.log(this.level.endboss[0].energy);
                     this.level.endboss[0].energy -= 20;
                     this.level.endboss[0].bossHitAnimation();
                 }
-    
                 if (this.level.endboss[0].energy == 0) {
                     this.level.endboss.endbossDead = true;
                     setTimeout(() => {
                         this.level.endboss.splice(this.level.endboss[0]);
                     }, 3000);
                 }
-    
+                if(this.character.isColliding(this.level.endboss[0])){
+                    this.character.hit();
+                    this.healthBar.setPercentage(this.character.energy);
+                    if(!this.character.isDead()){
+                        this.hurt_sound.play();
+                        this.hurt_sound.volume = 0.2;
+                    }
+                }
             });
         }
-
     }
 
 
@@ -186,7 +196,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
 
 
         if (mo.otherDirection) {

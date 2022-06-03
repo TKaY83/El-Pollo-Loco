@@ -96,3 +96,6 @@ window.addEventListener('keyup', (event) => {
 
 });
 
+
+// canvas.requestFullscreen()
+

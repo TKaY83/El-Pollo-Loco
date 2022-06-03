@@ -136,9 +136,12 @@ class Character extends MovableObject {
         let characterImages = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+                this.world.background_music.pause();
                 setTimeout(() => {
                     clearInterval(characterImages);
+                    document.getElementById('end-screen').style = 'position: absoulute;'
                 }, 1000);
+                this.world.keyboard = false;
 
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
