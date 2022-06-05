@@ -140,7 +140,7 @@ class World {
                 }
                 if(this.character.isColliding(this.level.endboss[0])){
                     this.character.hit();
-                    this.healthBar.setPercentage(this.character.energy);
+                    this.character.energy = 0;
                     if(!this.character.isDead()){
                         this.hurt_sound.play();
                         this.hurt_sound.volume = 0.2;

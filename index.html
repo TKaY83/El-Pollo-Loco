@@ -36,6 +36,22 @@
 
     <h1>El Amigo Pollo Loco</h1>
     <div class="mobile-buttons-div">
+        <div class="move">
+            <img id="left" src="img/arrow_left.png">
+            <img id="right" src="img/arrow_right.png">
+        </div>
+        <div class="jumpNthrow">
+            <img id="jump" src="img/arrow_up.png">
+            <img id="throw" src="img/adjust.png">
+        </div>
+        <div class="screen">
+            <img onclick="canvas.requestFullscreen()" src="img/fullscreen.png">
+            <!-- <img onclick="canvas.exitFullscreen()" src="img/fullscreen_exit.png"> -->
+        </div>
+
+        <div class="play">
+            <img onclick="startGame();" src="img/play.png">
+        </div>
         <canvas id="canvas" width="720" height="480"></canvas>
     </div>
 
