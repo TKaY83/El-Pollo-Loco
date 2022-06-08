@@ -27,7 +27,6 @@ h1 {
 }
 
 .start-screen {
-    position: absolute;
     left: 0;
     right: 0;
     top: 0;
@@ -37,6 +36,7 @@ h1 {
     justify-content: center;
     background-size: cover;
     background-attachment: fixed;
+    background-position: 50%
 
 }
 
@@ -98,6 +98,15 @@ display: none;
     right: 25px;
     z-index: 1;
 }
+
+.replay{
+    cursor: pointer;
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 1;
+}
+
 
 
 @media only screen and (max-width: 760px) {
@@ -161,7 +170,7 @@ display: none;
     .move{
         display: block;
         position: fixed;
-        top: 320px;
+        top: 300px;
         left: 20px;
         z-index: 1;
     }
@@ -169,7 +178,7 @@ display: none;
     .jumpNthrow{
         display: block;
         position: fixed;
-        top: 320px;
+        top: 300px;
         right: 40px;
         z-index: 1;
     }

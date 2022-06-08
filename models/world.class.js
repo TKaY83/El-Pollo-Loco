@@ -18,6 +18,7 @@ class World {
     collecting_coin_sound = new Audio('audio/coin.mp3');
     collecting_bottle_sound = new Audio('audio/collect-bottle.mp3');
     hurt_sound = new Audio('audio/hurt.mp3')
+    kill_chicken = new Audio('audio/fart.mp3')
 
     constructor(canvas, keyboard,) {
         this.ctx = canvas.getContext('2d');
@@ -36,7 +37,6 @@ class World {
 
     run() {
         setInterval(() => {
-
             this.checkCollisions();
             this.checkThrowObjects();
         }, 50);
@@ -44,11 +44,10 @@ class World {
         setInterval(() => {
             let hitAnimation = this.checkHitingEndboss();
             clearInterval(hitAnimation);
-        }, 350);
+        }, 300);
         this.background_music.play();
-        this.background_music.volume = 0.04;
+        this.background_music.volume = 0.08;
         this.background_music.loop = true;
-
     }
 
     checkThrowObjects() {
@@ -68,21 +67,27 @@ class World {
                 }, 300);
             }
         }
-
     }
 
     checkCollisions() {
         this.level.bigChicken.forEach((bigEnemy) => {
             if (bigEnemy.dead) {
-                this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
+                bigEnemy.speed = 0;
+                setTimeout(() => {
+                    this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
+                }, 300);
             }
             if (this.character.isColliding(bigEnemy) && this.character.isAboveGround() && this.character.speedY < 0) {
                 bigEnemy.deadAnimation();
+                this.kill_chicken.currentTime = 0;
+                this.kill_chicken.play();
+                this.kill_chicken.volume = 0.05;
+
             }
             if (this.character.isColliding(bigEnemy) && !this.character.isAboveGround() && !bigEnemy.dead && !bigEnemy.dead_animation) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
-                if(!this.character.isDead()){
+                if (!this.character.isDead()) {
                     this.hurt_sound.play();
                     this.hurt_sound.volume = 0.2;
                 }
@@ -94,13 +99,13 @@ class World {
             if (this.character.isColliding(smallEnemy)) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
-                if(!this.character.isDead()){
+                if (!this.character.isDead()) {
                     this.hurt_sound.play();
                     this.hurt_sound.volume = 0.2;
                 }
-
             }
         });
+
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
                 this.level.coins.splice(this.level.coins.indexOf(coin), 1);
@@ -112,6 +117,7 @@ class World {
             }
 
         });
+
         this.level.collectableBottle.forEach(bottle => {
             if (this.character.isColliding(bottle)) {
                 this.bottleAmount++;
@@ -138,10 +144,10 @@ class World {
                         this.level.endboss.splice(this.level.endboss[0]);
                     }, 3000);
                 }
-                if(this.character.isColliding(this.level.endboss[0])){
+                if (this.character.isColliding(this.level.endboss[0])) {
                     this.character.hit();
                     this.character.energy = 0;
-                    if(!this.character.isDead()){
+                    if (!this.character.isDead()) {
                         this.hurt_sound.play();
                         this.hurt_sound.volume = 0.2;
                     }
@@ -183,13 +189,11 @@ class World {
         });
     }
 
-
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
         });
     }
-
 
     addToMap(mo) {
         if (mo.otherDirection) {
@@ -197,7 +201,6 @@ class World {
         }
         mo.draw(this.ctx);
         // mo.drawFrame(this.ctx);
-
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);

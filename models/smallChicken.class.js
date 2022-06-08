@@ -10,7 +10,7 @@ class SmallChicken extends MovableObject {
 
     //Constructor wird als erstes geladen
     constructor() {
-        super().loadImage();
+        super().loadImage('img/3.Secuencias_Enemy_básico/Versión_pollito/1.Paso_derecho.png');
         this.loadImages(this.IMAGES_WALKING);
         // Math.random() = zufällige Zahl 0.0 -1.0 // Zahl zwischen 200 und 700
         this.x = 250 + Math.random() * 2500;

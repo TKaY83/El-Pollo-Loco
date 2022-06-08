@@ -9,15 +9,13 @@ function init() {
     world = new World(canvas, keyboard);
     ctx = canvas.getContext('2d');
     mobileButtons();
-
-    // console.log('My Char is', world.character);
-    // console.log('My Cicken is',world.enemies)
-
-
 }
 
 function startGame() {
     document.getElementById('start-screen').style = 'display: none;';
+    document.getElementById('screen').style.display = 'block;';
+    document.getElementById('play').style = 'display: none;';
+    document.getElementById('replay').style = 'display: block;';
     init();
 }
 
@@ -25,48 +23,37 @@ function tryAgain() {
     location.reload();
 }
 
-
-
 window.addEventListener('keydown', (event) => {
 
     if (event.keyCode == 38) {   // Key UP
         keyboard.UP = true;
         lastAction = new Date().getTime();
-
     }
 
     if (event.keyCode == 37) {    // Key LEFT
         keyboard.LEFT = true;
         lastAction = new Date().getTime();
-
     }
 
     if (event.keyCode == 40) {   // Key DOWN
         keyboard.DOWN = true;
         lastAction = new Date().getTime();
-
     }
 
     if (event.keyCode == 39) {   // Key RIGHT
         keyboard.RIGHT = true;
         lastAction = new Date().getTime();
-
     }
 
     if (event.keyCode == 32) {    // Key SPACE
         keyboard.SPACE = true;
         lastAction = new Date().getTime();
-
     }
 
     if (event.keyCode == 17) {    // Key CONTROL
         keyboard.STRG = true;
         lastAction = new Date().getTime();
     }
-
-    // KEYBARD LOG
-    // console.log(event);   
-
 });
 
 window.addEventListener('keyup', (event) => {
@@ -94,7 +81,6 @@ window.addEventListener('keyup', (event) => {
     if (event.keyCode == 17) {    // Key CONTROL
         keyboard.STRG = false;
     }
-
 });
 
 function mobileButtons(){
@@ -108,8 +94,6 @@ function mobileButtons(){
         keyboard.LEFT = false;
     });
 
-
-
     document.getElementById('right').addEventListener('touchstart', (e) => {
         e.preventDefault();
         keyboard.RIGHT = true;
@@ -120,8 +104,6 @@ function mobileButtons(){
         keyboard.RIGHT = false;
     });
 
-
-
     document.getElementById('jump').addEventListener('touchstart', (e) => {
         e.preventDefault();
         keyboard.UP = true;
@@ -131,9 +113,6 @@ function mobileButtons(){
         e.preventDefault();
         keyboard.UP = false;
     });
-
-
-
 
     document.getElementById('throw').addEventListener('touchstart', (e) => {
         e.preventDefault();

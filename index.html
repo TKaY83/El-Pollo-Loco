@@ -44,13 +44,17 @@
             <img id="jump" src="img/arrow_up.png">
             <img id="throw" src="img/adjust.png">
         </div>
-        <div class="screen">
+        <div class="screen" id="screen" style="display: none;">
             <img onclick="canvas.requestFullscreen()" src="img/fullscreen.png">
             <!-- <img onclick="canvas.exitFullscreen()" src="img/fullscreen_exit.png"> -->
         </div>
 
-        <div class="play">
+        <div class="play" id="play">
             <img onclick="startGame();" src="img/play.png">
+        </div>
+
+        <div class="replay" style="display: none;" id="replay" >
+            <img onclick="tryAgain();" src="img/replay.png">
         </div>
         <canvas id="canvas" width="720" height="480"></canvas>
     </div>
@@ -61,12 +65,10 @@
     <p class="controls">Use Arrow Keys to Move and Jump || Use Space to Throw Bottle</p>
 
     <div id="start-screen" style="position: absolute;" class="start-screen">
-        <button onclick="startGame();" class="start-btn">Start Game</button>
     </div>
 
 
     <div id="end-screen" style="display: none;" class="end-screen">
-        <button onclick="tryAgain();" class="start-btn">Try Again</button>
     </div>
 
 </body>
