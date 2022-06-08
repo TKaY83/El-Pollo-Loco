@@ -16,13 +16,9 @@ class Coin extends MovableObject {
         this.y = 50 + Math.random() * 100;
     }
 
-
     animate() {
-        
         setInterval(() => {
             this.playAnimation(this.IMAGES_COIN);
         }, 400)
-
-
     }
 }

@@ -18,7 +18,6 @@ class ThrowableObject extends MovableObject {
 
     splash_sound = new Audio('audio/splash.mp3');
 
-
     constructor(x, y, world) {
         super().loadImage('img/7.Marcadores/Icono/Botella.png');
         this.loadImages(this.IMAGES_FLYING_BOTTLE);
@@ -32,7 +31,6 @@ class ThrowableObject extends MovableObject {
         this.animate();
     }
 
-
     throw() {
         if (this.world.bottleAmount > 0) {
             this.speedY = 20;
@@ -42,11 +40,6 @@ class ThrowableObject extends MovableObject {
             }, 1000 / 60);
             this.isThrowingBottle();
         }
-
-        if (this.y > 320) {
-            
-        }
-
     }
 
     animate() {
@@ -54,8 +47,7 @@ class ThrowableObject extends MovableObject {
         let clearBottle = setInterval(() => {
             if (this.y < 320) {
                 this.playAnimation(this.IMAGES_FLYING_BOTTLE);
-
-            } else {
+            } else  {
                 this.playAnimation(this.IMAGES_SPLASHING_BOTTLE);
                 this.splash_sound.volume = 0.2;
                 this.splash_sound.play();
@@ -63,5 +55,4 @@ class ThrowableObject extends MovableObject {
             }
         }, 90);
     }
-
 }

@@ -7,12 +7,8 @@ class DrawableObject {
     imageCache = {};
     currentImage = 0;
 
-
-
-
-    // laodImage('img/test.png');
     loadImage(path) {
-        this.img = new Image(); //this.img = document.getElementById('image') <img id="image">
+        this.img = new Image();
         this.img.src = path;
     }
 
@@ -21,9 +17,9 @@ class DrawableObject {
     }
 
     /**
- * 
- * @param {Array} arr - ['img/image1.png', 'img/image2.png', 'img/image3.png', ...]
- */
+    * 
+    * @param {Array} arr
+    */
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
@@ -31,7 +27,7 @@ class DrawableObject {
             this.imageCache[path] = img;
         });
     }
-    // Draws a frame arround objects to check collision
+
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
             ctx.beginPath();

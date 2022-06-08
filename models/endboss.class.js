@@ -53,7 +53,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.x = 2500;
         this.animate();
-    }
+    };
 
     animate() {
         setInterval(() => {
@@ -66,7 +66,6 @@ class Endboss extends MovableObject {
                 this.world.background_music.pause();
                 setTimeout(() => {
                     document.getElementById('end-screen').style = 'position: absoulute;'
-
                 }, 3000);
             }
             if (this.hittingBoss) {
@@ -78,17 +77,16 @@ class Endboss extends MovableObject {
             } else if (this.energy == 100) {
                 this.playAnimation(this.IMAGES_IDLE);
             }
-
         }, 200)
-    }
+    };
 
     bossHitAnimation() {
         this.hittingBoss = true;
         setTimeout(() => {
             this.hittingBoss = false;
         }, 300);
-    }
+    };
 
-}
+};
 
 

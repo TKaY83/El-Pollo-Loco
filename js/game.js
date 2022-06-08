@@ -4,6 +4,7 @@ let keyboard = new Keyboard();
 let lastAction;
 
 
+
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
@@ -82,6 +83,8 @@ window.addEventListener('keyup', (event) => {
         keyboard.STRG = false;
     }
 });
+
+
 
 function mobileButtons(){
     document.getElementById('left').addEventListener('touchstart', (e) => {

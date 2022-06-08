@@ -123,16 +123,6 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 50;
         }, 1000 / 60);
 
-        // setInterval(() => {
-        //     if (this.world.keyboard.LEFT == false || this.world.keyboard.RIGHT == false || this.world.keyboard.UP == false) {
-        //         this.playAnimation(this.IMAGES_IDLE);
-        //     }
-        //     if (this.world.keyboard.LEFT == false || this.world.keyboard.RIGHT == false || this.world.keyboard.UP == false || this.world.keyboard.SPACE == false ) {
-        //         this.playAnimation(this.IMAGES_IDLE);
-        //     }
-        // }, 200);
-
-
         let characterImages = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
@@ -155,11 +145,7 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_IDLE);
             }
 
-        }
-
-            , 200);
-
-
+        }, 200);
     }
 
     bored() {

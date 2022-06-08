@@ -14,7 +14,6 @@ class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
-
         }, 1000 / 25);
     }
 
@@ -27,34 +26,28 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimation(images) {
-        let i = this.currentImage % images.length; // let i = 0 / 6; = 0, Rest 0 //0 / 5; = 0, Rest 5 // 6 / 6; = 1, Rest 0
-        // i = 0, 1, 2, 3, 4, 5, ;  0, 1, 2, 3, 4, 5,
+        let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-        /////////////////////////////////FRAGE////////////////////////////////////
-        // if(this.currentImage == this.IMAGES_WALKING.length){
+        /////////////////////////////////FRAGE/// Könnte man das auch so lösen? Also ohne dieses modulu?////////////////////////////////////
+        // if(this.currentImage == this.imags.length){
         //     this.currentImage =0;
         // }
     }
 
     moveRight() {
         this.x += this.speed;
-
-
     }
 
     moveLeft() {
         this.x -= this.speed;
-
     }
 
-    // Junus hat die funktion doppelt// auf dem charakter objekt
     jump() {
         this.speedY = 30;
     }
 
-    // isColliding.isColliding(chicken)
     isColliding(mo) {
         if (this instanceof Character) {
             return this.x + this.width > mo.x &&
@@ -67,7 +60,6 @@ class MovableObject extends DrawableObject {
                 this.x < mo.x &&
                 this.y < mo.y + mo.height;
         }
-
     }
 
     hit() {
@@ -101,4 +93,4 @@ class MovableObject extends DrawableObject {
         this.bottlesCollectedPercent -= 11;
     }
 
-}
+};
