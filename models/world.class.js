@@ -19,6 +19,7 @@ class World {
     collecting_bottle_sound = new Audio('audio/collect-bottle.mp3');
     hurt_sound = new Audio('audio/hurt.mp3')
     kill_chicken = new Audio('audio/fart.mp3')
+    endboss_hurt = new Audio('audio/endboos_hurt.mp3')
 
     constructor(canvas, keyboard,) {
         this.ctx = canvas.getContext('2d');
@@ -82,7 +83,9 @@ class World {
             this.throwableObjects.forEach(throwableObject => {
                 if (this.level.endboss[0].isColliding(throwableObject)) {
                     this.throwableObjects.splice(this.throwableObjects.indexOf(throwableObject), 1);
-
+                    this.endboss_hurt.currentTime = 0;
+                    this.endboss_hurt.play();
+                    this.endboss_hurt.volume = 0.2;
                     this.level.endboss[0].energy -= 20;
                     this.level.endboss[0].bossHitAnimation();
                 }

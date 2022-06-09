@@ -37,7 +37,6 @@ h1 {
     background-size: cover;
     background-attachment: fixed;
     background-position: 50%
-
 }
 
 .start-btn {
@@ -69,29 +68,28 @@ h1 {
     font-weight: bolder;
 }
 
-.mobile-buttons-div{
+.mobile-buttons-div {
     position: relative;
     color: rgb(239, 79, 10);
 
 }
 
-.move{
-display: none;
+.move {
+    display: none;
 }
 
-.jumpNthrow{
-display: none;
+.jumpNthrow {
+    display: none;
 }
 
-.screen{
+.screen {
     cursor: pointer;
     position: fixed;
     top: 25px;
     left: 25px;
-    z-index: 1;
 }
 
-.play{
+.play {
     cursor: pointer;
     position: fixed;
     top: 25px;
@@ -99,7 +97,7 @@ display: none;
     z-index: 1;
 }
 
-.replay{
+.replay {
     cursor: pointer;
     position: fixed;
     top: 25px;
@@ -111,11 +109,11 @@ display: none;
 
 @media only screen and (max-width: 760px) {
 
-    .mobile-buttons-div{
+    .mobile-buttons-div {
         width: 100%;
-    
+
     }
-    
+
     canvas {
         width: 100%;
     }
@@ -124,15 +122,15 @@ display: none;
         display: none;
     }
 
-    .move{
+    .move {
         display: block;
         position: fixed;
         top: 820px;
         left: 20px;
         z-index: 1;
     }
-    
-    .jumpNthrow{
+
+    .jumpNthrow {
         display: block;
         position: fixed;
         top: 820px;
@@ -140,7 +138,7 @@ display: none;
         z-index: 1;
     }
 
-    .screen{
+    .screen {
         display: none;
     }
 
@@ -153,9 +151,9 @@ display: none;
 
 @media only screen and (max-height: 480px) {
 
-    .mobile-buttons-div{
+    .mobile-buttons-div {
         width: 100%;
-    
+
     }
 
     canvas {
@@ -167,15 +165,15 @@ display: none;
         display: none;
     }
 
-    .move{
+    .move {
         display: block;
         position: fixed;
         top: 300px;
         left: 20px;
         z-index: 1;
     }
-    
-    .jumpNthrow{
+
+    .jumpNthrow {
         display: block;
         position: fixed;
         top: 300px;
@@ -183,10 +181,11 @@ display: none;
         z-index: 1;
     }
 
-    .screen{
+    .screen {
         display: none;
     }
-/* 
+
+    /* 
     .start-screen{
         height:  100vh;
         display: block;
