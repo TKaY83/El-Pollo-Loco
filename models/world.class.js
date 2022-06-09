@@ -105,11 +105,9 @@ class World {
     }
     checkCollisionWithBigChicken() {
         this.level.bigChicken.forEach((bigEnemy) => {
-            if (bigEnemy.dead) {
+            if (this.character.isColliding(bigEnemy) && this.character.isAboveGround() && this.character.speedY < 0) {
                 bigEnemy.speed = 0;
                 this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
-            }
-            if (this.character.isColliding(bigEnemy) && this.character.isAboveGround() && this.character.speedY < 0) {
                 bigEnemy.deadAnimation();
                 this.kill_chicken.currentTime = 0;
                 this.kill_chicken.play();
