@@ -71,11 +71,8 @@ class World {
 
     checkCollisions() {
         this.checkCollisionWithBigChicken();
-
         this.checkCollisionWithSmallChicken();
-
         this.checkCollisionWithCoin();
-
         this.checkCollisionWithCollectableBottle();
 
     }
@@ -110,9 +107,7 @@ class World {
         this.level.bigChicken.forEach((bigEnemy) => {
             if (bigEnemy.dead) {
                 bigEnemy.speed = 0;
-                setTimeout(() => {
-                    this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
-                }, 300);
+                this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
             }
             if (this.character.isColliding(bigEnemy) && this.character.isAboveGround() && this.character.speedY < 0) {
                 bigEnemy.deadAnimation();
