@@ -105,21 +105,24 @@ class World {
     }
     checkCollisionWithBigChicken() {
         this.level.bigChicken.forEach((bigEnemy) => {
-            if (this.character.isColliding(bigEnemy) && this.character.isAboveGround() && this.character.speedY < 0) {
+            if (!bigEnemy.isDead() && this.character.isColliding(bigEnemy) && this.character.isAboveGround() && this.character.speedY < 0) {
                 bigEnemy.speed = 0;
-                this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
-                bigEnemy.deadAnimation();
+                bigEnemy.energy = 0;
+                setTimeout(() => {
+                    this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
+                }, 2000);
                 this.kill_chicken.currentTime = 0;
                 this.kill_chicken.play();
                 this.kill_chicken.volume = 0.05;
             }
-            if (this.character.isColliding(bigEnemy) && !this.character.isAboveGround() && !bigEnemy.dead && !bigEnemy.dead_animation) {
-                this.character.hit();
-                this.healthBar.setPercentage(this.character.energy);
-                if (!this.character.isDead()) {
+            if (this.character.isColliding(bigEnemy) && !this.character.isAboveGround()) {
+                if (!bigEnemy.isDead() && !this.character.isDead()) {
+                    this.character.hit();
                     this.hurt_sound.play();
                     this.hurt_sound.volume = 0.2;
+                    this.healthBar.setPercentage(this.character.energy);
                 }
+
             }
         });
     }
@@ -188,7 +191,7 @@ class World {
         });
     }
 
-    addAllObjects(){
+    addAllObjects() {
         this.addObjectsToMap(this.level.bigChicken);
         this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.clouds);

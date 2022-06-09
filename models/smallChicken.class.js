@@ -11,7 +11,7 @@ class SmallChicken extends MovableObject {
     constructor() {
         super().loadImage('img/3.Secuencias_Enemy_básico/Versión_pollito/1.Paso_derecho.png');
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 250 + Math.random() * 2500;
+        this.x = 1250 + Math.random() * 1500;
         this.speed = 0.35 + Math.random() * 1.5;
         this.animate();
     }
