@@ -1,12 +1,12 @@
 class ThrowableObject extends MovableObject {
 
-
     IMAGES_FLYING_BOTTLE = [
         'img/6.botella/Rotación/Mesa de trabajo 1 copia 3.png',
         'img/6.botella/Rotación/Mesa de trabajo 1 copia 4.png',
         'img/6.botella/Rotación/Mesa de trabajo 1 copia 5.png',
         'img/6.botella/Rotación/Mesa de trabajo 1 copia 6.png',
     ];
+    
     IMAGES_SPLASHING_BOTTLE = [
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 7.png',
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 8.png',
@@ -43,7 +43,6 @@ class ThrowableObject extends MovableObject {
     }
 
     animate() {
-
         let clearBottle = setInterval(() => {
             if (this.y < 320) {
                 this.playAnimation(this.IMAGES_FLYING_BOTTLE);

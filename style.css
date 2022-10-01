@@ -97,6 +97,10 @@ h1 {
     z-index: 1;
 }
 
+.please_turn_device {
+    display: none;
+}
+
 
 @media only screen and (max-width: 760px) {
 
@@ -109,9 +113,9 @@ h1 {
         width: 100%;
     }
 
-    /* h1, p, a {
+    h1, p, a {
         display: none;
-    } */
+    }
 
     .move {
         display: block;
@@ -137,7 +141,7 @@ h1 {
 
 }
 
-@media only screen and (max-height: 480px) {
+@media only screen and (max-height: 680px) {
 
     .mobile-buttons-div {
         width: 100%;
@@ -149,14 +153,14 @@ h1 {
         width: 100%;
     }
 
-    /* h1, p, a {
+    h1, p, a {
         display: none;
-    } */
+    }
 
     .move {
         display: block;
         position: fixed;
-        top: 300px;
+        top: 80%;
         left: 20px;
         z-index: 1;
     }
@@ -164,7 +168,7 @@ h1 {
     .jumpNthrow {
         display: block;
         position: fixed;
-        top: 300px;
+        top: 80%;
         right: 40px;
         z-index: 1;
     }
@@ -178,6 +182,7 @@ h1 {
 
 @media screen and (orientation:portrait) {
     .please_turn_device {
+        display: unset;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -192,6 +197,7 @@ h1 {
     }
 
     h1{
+        display: block;
         font-size: 24px;
     }
 
