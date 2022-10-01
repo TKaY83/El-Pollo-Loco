@@ -13,12 +13,16 @@ function init() {
 }
 
 function startGame() {
+    prepareScreen();
+    initLevel();
+    init();
+}
+
+function prepareScreen(){
     document.getElementById('start-screen').style = 'display: none;';
     document.getElementById('screen').style.display = 'block;';
     document.getElementById('play').style = 'display: none;';
     document.getElementById('replay').style = 'display: block;';
-    initLevel();
-    init();
 }
 
 function tryAgain() {

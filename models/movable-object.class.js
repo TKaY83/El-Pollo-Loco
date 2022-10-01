@@ -36,10 +36,6 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-        /////////////////////////////////FRAGE/// Könnte man das auch so lösen? Also ohne dieses modulu?////////////////////////////////////
-        // if(this.currentImage == this.imags.length){
-        //     this.currentImage =0;
-        // }
     }
 
     moveRight() {

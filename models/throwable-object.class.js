@@ -47,12 +47,16 @@ class ThrowableObject extends MovableObject {
         let clearBottle = setInterval(() => {
             if (this.y < 320) {
                 this.playAnimation(this.IMAGES_FLYING_BOTTLE);
-            } else  {
+            } else {
                 this.playAnimation(this.IMAGES_SPLASHING_BOTTLE);
-                this.splash_sound.volume = 0.2;
-                this.splash_sound.play();
+                this.spashSoundPlay();
                 clearInterval(clearBottle);
             }
         }, 90);
+    }
+
+    spashSoundPlay() {
+        this.splash_sound.volume = 0.2;
+        this.splash_sound.play();
     }
 }

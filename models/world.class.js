@@ -35,39 +35,65 @@ class World {
         this.level.endboss[0].world = this;
     }
 
-
-    run() {
+    collisionsInterval() {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
         }, 50);
+    }
 
-        setInterval(() => {
-            let hitAnimation = this.checkHitingEndboss();
-            clearInterval(hitAnimation);
-        }, 300);
+    run() {
+        this.collisionsInterval();
+        this.hitAnimationIntervall();
+        this.backgroundMusicPlay();
+    }
+
+    backgroundMusicPlay() {
         this.background_music.play();
         this.background_music.volume = 0.08;
         this.background_music.loop = true;
     }
 
     checkThrowObjects() {
-        if (this.bottleAmount > 0) {
-            if (this.keyboard.SPACE && this.alreadyThrowed == false) {
-                this.alreadyThrowed = true;
-                this.throw_sound.currentTime = 0;
-                this.throw_sound.play();
-                this.throw_sound.volume = 0.1;
-                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this);
-                this.throwableObjects.push(bottle);
-                this.bottleAmount--;
-                this.character.isThrowingBottle();
-                this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
-                setTimeout(() => {
-                    this.alreadyThrowed = false;
-                }, 300);
-            }
+        if (this.bottleAmount > 0 && this.spaceNotPushed()) {
+            this.throwBottle();
         }
+    }
+
+    spaceNotPushed() {
+        return this.keyboard.SPACE && this.alreadyThrowed == false
+    }
+
+    throwBottle() {
+        this.alreadyThrowed = true;
+        this.throwSoundPlay();
+        let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this);
+        this.throwableObjects.push(bottle);
+        this.bottleAmount--;
+        this.character.isThrowingBottle();
+        this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
+        this.preventBottleSpaming();
+    }
+
+    preventBottleSpaming() {
+        setTimeout(() => {
+            this.alreadyThrowed = false;
+        }, 300);
+    }
+
+    throwSoundPlay() {
+        this.throw_sound.currentTime = 0;
+        this.throw_sound.play();
+        this.throw_sound.volume = 0.1;
+    }
+
+
+
+    hitAnimationIntervall() {
+        setInterval(() => {
+            let hitAnimation = this.checkHitingEndboss();
+            clearInterval(hitAnimation);
+        }, 300);
     }
 
     checkCollisions() {
@@ -82,53 +108,90 @@ class World {
         if (!this.level.endboss.endbossDead) {
             this.throwableObjects.forEach(throwableObject => {
                 if (this.level.endboss[0].isColliding(throwableObject)) {
-                    this.throwableObjects.splice(this.throwableObjects.indexOf(throwableObject), 1);
-                    this.endboss_hurt.currentTime = 0;
-                    this.endboss_hurt.play();
-                    this.endboss_hurt.volume = 0.2;
-                    this.level.endboss[0].energy -= 20;
-                    this.level.endboss[0].bossHitAnimation();
+                    this.hittingEndbos();
                 }
                 if (this.level.endboss[0].energy == 0) {
-                    this.level.endboss.endbossDead = true;
-                    setTimeout(() => {
-                        this.level.endboss.splice(this.level.endboss[0]);
-                    }, 3000);
+                    this.endbossIsDead(throwableObject);
                 }
                 if (this.character.isColliding(this.level.endboss[0])) {
                     this.character.hit();
-                    this.character.energy = 0;
-                    if (!this.character.isDead()) {
-                        this.hurt_sound.play();
-                        this.hurt_sound.volume = 0.2;
-                    }
+                    this.characterIsDead();
                 }
             });
         }
     }
+
+    characterIsDead() {
+        this.character.energy = 0;
+        if (!this.character.isDead()) {
+            this.hurt_sound.play();
+            this.hurt_sound.volume = 0.2;
+        }
+    }
+
+    hittingEndbos(throwableObject) {
+        this.throwableObjects.splice(this.throwableObjects.indexOf(throwableObject), 1);
+        this.endboss_hurt.currentTime = 0;
+        this.endboss_hurt.play();
+        this.endboss_hurt.volume = 0.2;
+        this.level.endboss[0].energy -= 20;
+        this.level.endboss[0].bossHitAnimation();
+    }
+
+    endbossIsDead() {
+        this.level.endboss.endbossDead = true;
+        setTimeout(() => {
+            this.level.endboss.splice(this.level.endboss[0]);
+        }, 3000);
+    }
+
     checkCollisionWithBigChicken() {
         this.level.bigChicken.forEach((bigEnemy) => {
-            if (!bigEnemy.isDead() && this.character.isColliding(bigEnemy) && this.character.isAboveGround() && this.character.speedY < 0) {
-                bigEnemy.speed = 0;
-                bigEnemy.energy = 0;
-                setTimeout(() => {
-                    this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
-                }, 2000);
-                this.kill_chicken.currentTime = 0;
-                this.kill_chicken.play();
-                this.kill_chicken.volume = 0.05;
+            if (this.bigChickenDead(bigEnemy)) {
+                this.killBigChicken(bigEnemy);
+                this.killBigChickenPlay();
             }
-            if (this.character.isColliding(bigEnemy) && !this.character.isAboveGround()) {
-                if (!bigEnemy.isDead() && !this.character.isDead()) {
-                    this.character.hit();
-                    this.hurt_sound.play();
-                    this.hurt_sound.volume = 0.2;
-                    this.healthBar.setPercentage(this.character.energy);
-                }
-
+            if (this.enemyHurtCaracter(bigEnemy)) {
+                this.characterHurtPlay();
             }
         });
     }
+
+    killBigChicken(bigEnemy) {
+        bigEnemy.speed = 0;
+        bigEnemy.energy = 0;
+        setTimeout(() => {
+            this.level.bigChicken.splice(this.level.bigChicken.indexOf(bigEnemy), 1);
+        }, 2000);
+    }
+
+    bigChickenDead(bigEnemy) {
+        return !bigEnemy.isDead()
+            && this.character.isColliding(bigEnemy)
+            && this.character.isAboveGround()
+            && this.character.speedY < 0
+    }
+
+    enemyHurtCaracter(bigEnemy) {
+        return this.character.isColliding(bigEnemy)
+            && !this.character.isAboveGround()
+            && !bigEnemy.isDead()
+            && !this.character.isDead()
+    }
+
+    characterHurtPlay() {
+        this.character.hit();
+        this.hurt_sound.play();
+        this.hurt_sound.volume = 0.2;
+        this.healthBar.setPercentage(this.character.energy);
+    }
+
+    killBigChickenPlay() {
+        this.kill_chicken.currentTime = 0;
+        this.kill_chicken.play();
+        this.kill_chicken.volume = 0.05;
+    }
+
     checkCollisionWithSmallChicken() {
         this.level.smallChicken.forEach((smallEnemy) => {
             if (this.character.isColliding(smallEnemy)) {
@@ -147,13 +210,16 @@ class World {
             if (this.character.isColliding(coin)) {
                 this.level.coins.splice(this.level.coins.indexOf(coin), 1);
                 this.character.isCollectingCoin();
-                this.collecting_coin_sound.currentTime = 0;
-                this.collecting_coin_sound.play();
-                this.collecting_coin_sound.volume = 0.05;
+                this.coinCollectPlay();
                 this.coinBar.setPercentage(this.character.coinsCollected);
             }
-
         });
+    }
+
+    coinCollectPlay() {
+        this.collecting_coin_sound.currentTime = 0;
+        this.collecting_coin_sound.play();
+        this.collecting_coin_sound.volume = 0.05;
     }
 
     checkCollisionWithCollectableBottle() {
@@ -162,36 +228,41 @@ class World {
                 this.bottleAmount++;
                 this.level.collectableBottle.splice(this.level.collectableBottle.indexOf(bottle), 1);
                 this.character.isCollectingBottle();
-                this.collecting_bottle_sound.currentTime = 0;
-                this.collecting_bottle_sound.play();
+                this.collectingBottlePlay();
                 this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
             }
         });
     }
 
+    collectingBottlePlay() {
+        this.collecting_bottle_sound.currentTime = 0;
+        this.collecting_bottle_sound.play();
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-
         this.addAllObjects();
-
         this.addToMap(this.character);
-
         this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.healthBar);
-        this.addToMap(this.coinBar);
-        this.addToMap(this.bottleBar);
+        this.addAllToMap();
         this.ctx.translate(this.camera_x, 0);
-
-
         this.ctx.translate(-this.camera_x, 0);
+        this.animationFrame();
+    }
 
+    animationFrame() {
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
         });
+    }
+
+    addAllToMap() {
+        this.addToMap(this.healthBar);
+        this.addToMap(this.coinBar);
+        this.addToMap(this.bottleBar);
     }
 
     addAllObjects() {
