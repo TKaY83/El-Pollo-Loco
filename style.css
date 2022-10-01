@@ -27,16 +27,11 @@ h1 {
 }
 
 .start-screen {
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
     background-image: url('img/9.Intro _ Outro Image/Start Screen/Opción 1.png');
-    display: flex;
-    justify-content: center;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: 50%
+    width: 100vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
 .start-btn {
@@ -52,15 +47,12 @@ h1 {
 
 .end-screen {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     background-image: url('img/9.Intro _ Outro Image/_Game over_ screen/3.Game over.png');
-    display: flex;
-    justify-content: center;
-    background-size: cover;
-    background-attachment: fixed;
+
 }
 
 .controls {
@@ -106,7 +98,6 @@ h1 {
 }
 
 
-
 @media only screen and (max-width: 760px) {
 
     .mobile-buttons-div {
@@ -118,9 +109,9 @@ h1 {
         width: 100%;
     }
 
-    h1, p, a {
+    /* h1, p, a {
         display: none;
-    }
+    } */
 
     .move {
         display: block;
@@ -142,10 +133,7 @@ h1 {
         display: none;
     }
 
-    /* .start-screen{
-        width:  100%;
-        display: block;
-    } */
+
 
 }
 
@@ -161,9 +149,9 @@ h1 {
         width: 100%;
     }
 
-    h1, p, a {
+    /* h1, p, a {
         display: none;
-    }
+    } */
 
     .move {
         display: block;
@@ -185,10 +173,26 @@ h1 {
         display: none;
     }
 
-    /* 
-    .start-screen{
-        height:  100vh;
-        display: block;
-    } */
+
+}
+
+@media screen and (orientation:portrait) {
+    .please_turn_device {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9;
+        background-color: rgba(0, 0, 0, 0.95);
+        color: red;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    h1{
+        font-size: 24px;
+    }
 
 }

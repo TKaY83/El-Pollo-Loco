@@ -225,13 +225,17 @@ class World {
     checkCollisionWithCollectableBottle() {
         this.level.collectableBottle.forEach(bottle => {
             if (this.character.isColliding(bottle)) {
-                this.bottleAmount++;
-                this.level.collectableBottle.splice(this.level.collectableBottle.indexOf(bottle), 1);
-                this.character.isCollectingBottle();
-                this.collectingBottlePlay();
-                this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
+                this.collectBottle(bottle);
             }
         });
+    }
+
+    collectBottle(bottle){
+        this.bottleAmount++;
+        this.level.collectableBottle.splice(this.level.collectableBottle.indexOf(bottle), 1);
+        this.character.isCollectingBottle();
+        this.collectingBottlePlay();
+        this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
     }
 
     collectingBottlePlay() {
@@ -282,15 +286,10 @@ class World {
     }
 
     addToMap(mo) {
-        if (mo.otherDirection) {
-            this.flipImage(mo);
-        }
+        if (mo.otherDirection) this.flipImage(mo);
         mo.draw(this.ctx);
         // mo.drawFrame(this.ctx);
-
-        if (mo.otherDirection) {
-            this.flipImageBack(mo);
-        }
+        if (mo.otherDirection) this.flipImageBack(mo);
     }
 
     flipImage(mo) {
