@@ -90,6 +90,11 @@ class Character extends MovableObject {
     }
 
     animate() {
+        this.characterMoveInterval();
+        this.characterAnimationInterval();
+    }
+
+    characterMoveInterval(){
         setInterval(() => {
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) this.runToRight();
@@ -99,7 +104,9 @@ class Character extends MovableObject {
             if (this.world.keyboard.UP && !this.isAboveGround()) this.checkJump();
             this.world.camera_x = -this.x + 50;
         }, 1000 / 60);
+    }
 
+    characterAnimationInterval(){
         let characterImages = setInterval(() => {
             if (this.isDead())
                 this.stopGame(characterImages); else if (this.isHurt())
