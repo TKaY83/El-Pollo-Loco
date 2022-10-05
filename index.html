@@ -52,7 +52,12 @@
             <img onclick="startGame();" src="img/play.png">
         </div>
 
-        <div class="replay" style="display: none;" id="replay" >
+        <div class="sound" id="sound">
+            <img id="off" onclick="world.backgroundMusicPauseIcon();" style="display: block" src="img/volume_off.png">
+            <img id="on" onclick="world.backgroundMusicplayIcon();" style="display: none" src="img/volume_up.png">
+        </div>
+
+        <div class="replay" style="display: none;" id="replay">
             <img onclick="tryAgain();" src="img/replay.png">
         </div>
         <div id="end-screen" style="display: none;" class="end-screen">
@@ -64,7 +69,7 @@
     <a class="links" target="blank" href="https://www.flaticon.com/free-icons/mexican" title="mexican icons">Mexican
         icons created by Freepik - Flaticon</a>
     <p class="controls">Use Arrow Keys to Move and Jump || Use Space to Throw Bottle <br>
-    You Can' t Kill Babychicken, you Badguy !!! ;)</p>
+        You Can' t Kill Babychicken, you Badguy !!! ;)</p>
 
     <div id="start-screen" style="position: absolute;" class="start-screen">
     </div>

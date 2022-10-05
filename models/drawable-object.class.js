@@ -11,7 +11,10 @@ class DrawableObject {
         this.img = new Image();
         this.img.src = path;
     }
-
+    /**
+     * 
+     * @param {Context} ctx 
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }

@@ -50,6 +50,12 @@ class MovableObject extends DrawableObject {
         this.speedY = 30;
     }
 
+    /**
+     * 
+     * @param {MovableObject} mo 
+     * @returns collisions
+     */
+
     isColliding(mo) {
         if (this instanceof Character) {
             return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&

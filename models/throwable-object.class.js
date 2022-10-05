@@ -18,6 +18,11 @@ class ThrowableObject extends MovableObject {
 
     splash_sound = new Audio('audio/splash.mp3');
 
+/**
+ * @param {x coordinate} x 
+ * @param {y coordinate} y 
+ * @param {World Object} world 
+ */
     constructor(x, y, world) {
         super().loadImage('img/7.Marcadores/Icono/Botella.png');
         this.loadImages(this.IMAGES_FLYING_BOTTLE);

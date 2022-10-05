@@ -54,6 +54,19 @@ class World {
         this.background_music.loop = true;
     }
 
+    backgroundMusicPauseIcon() {
+        this.background_music.pause();
+        document.getElementById('off').style.display = 'none';
+        document.getElementById('on').style.display = 'block';
+
+    }
+
+    backgroundMusicplayIcon() {
+        this.background_music.play();
+        document.getElementById('on').style.display = 'none';
+        document.getElementById('off').style.display = 'block';
+    }
+
     checkThrowObjects() {
         if (this.bottleAmount > 0 && this.spaceNotPushed()) {
             this.throwBottle();
@@ -128,6 +141,11 @@ class World {
             this.hurt_sound.volume = 0.2;
         }
     }
+
+    /**
+     * 
+     * @param {Array} throwableObject 
+     */
 
     hittingEndbos(throwableObject) {
         this.throwableObjects.splice(this.throwableObjects.indexOf(throwableObject), 1);
@@ -230,7 +248,7 @@ class World {
         });
     }
 
-    collectBottle(bottle){
+    collectBottle(bottle) {
         this.bottleAmount++;
         this.level.collectableBottle.splice(this.level.collectableBottle.indexOf(bottle), 1);
         this.character.isCollectingBottle();
