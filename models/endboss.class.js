@@ -58,15 +58,7 @@ class Endboss extends MovableObject {
     animate() {
         setInterval(() => {
             if (this.energy <= 0) {
-                this.playAnimation(this.IMAGES_DEAD);
-                this.energy = 0;
-                this.speed = 0;
-                this.endbossDead = true;
-                this.world.keyboard = false;
-                this.world.background_music.pause();
-                setTimeout(() => {
-                    document.getElementById('end-screen').style = 'position: absoulute;'
-                }, 3000);
+                this.endbossDeadGameOver();
             }
             if (this.hittingBoss) {
                 this.playAnimation(this.IMAGES_HURT);
@@ -79,6 +71,18 @@ class Endboss extends MovableObject {
             }
         }, 200)
     };
+
+    endbossDeadGameOver() {
+        this.playAnimation(this.IMAGES_DEAD);
+        this.energy = 0;
+        this.speed = 0;
+        this.endbossDead = true;
+        this.world.keyboard = false;
+        this.world.background_music.pause();
+        setTimeout(() => {
+            document.getElementById('end-screen').style = 'position: absoulute;'
+        }, 3000);
+    }
 
     bossHitAnimation() {
         this.hittingBoss = true;

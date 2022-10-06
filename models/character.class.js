@@ -160,4 +160,16 @@ class Character extends MovableObject {
         timePassed = timePassed / 1000
         return timePassed > 5;
     }
+
+    isCollectingCoin() {
+        this.coinsCollected += 11;
+    }
+
+    isCollectingBottle() {
+        this.bottlesCollectedPercent += 11;
+    }
+
+    isThrowingBottle() {
+        this.bottlesCollectedPercent -= 11;
+    }
 }

@@ -89,16 +89,4 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
-    isCollectingCoin() {
-        this.coinsCollected += 11;
-    }
-
-    isCollectingBottle() {
-        this.bottlesCollectedPercent += 11;
-    }
-
-    isThrowingBottle() {
-        this.bottlesCollectedPercent -= 11;
-    }
-
 };
