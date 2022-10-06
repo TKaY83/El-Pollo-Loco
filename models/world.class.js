@@ -46,6 +46,7 @@ class World {
         this.collisionsInterval();
         this.hitAnimationIntervall();
         this.backgroundMusicPlay();
+        this.ckeckBossCollision();
     }
 
     backgroundMusicPlay() {
@@ -115,6 +116,15 @@ class World {
 
     }
 
+    ckeckBossCollision() {
+        setInterval(() => {
+            if (this.character.isColliding(this.level.endboss[0])) {
+                this.character.hit();
+                this.characterIsDead();
+            }
+        }, 500);
+    }
+
     checkHitingEndboss() {
         if (!this.level.endboss.endbossDead) {
             this.throwableObjects.forEach(throwableObject => {
@@ -123,10 +133,6 @@ class World {
                 }
                 if (this.level.endboss[0].energy == 0) {
                     this.endbossIsDead(throwableObject);
-                }
-                if (this.character.isColliding(this.level.endboss[0])) {
-                    this.character.hit();
-                    this.characterIsDead();
                 }
             });
         }
