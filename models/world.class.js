@@ -100,8 +100,6 @@ class World {
         this.throw_sound.volume = 0.1;
     }
 
-
-
     hitAnimationIntervall() {
         setInterval(() => {
             let hitAnimation = this.checkHitingEndboss();

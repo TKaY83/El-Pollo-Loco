@@ -43,7 +43,6 @@ class ThrowableObject extends MovableObject {
             setInterval(() => {
                 this.x += 8;
             }, 1000 / 60);
-            this.isThrowingBottle();
         }
     }
 
