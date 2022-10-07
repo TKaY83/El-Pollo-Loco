@@ -55,23 +55,25 @@ class Endboss extends MovableObject {
         this.animate();
     };
 
+    /**
+     * animates the boss
+     */
     animate() {
         setInterval(() => {
-            if (this.energy <= 0) {
-                this.endbossDeadGameOver();
-            }
+            if (this.energy <= 0) this.endbossDeadGameOver();
             if (this.hittingBoss) {
                 this.playAnimation(this.IMAGES_HURT);
                 this.bossHitAnimation();
             } else if (this.energy < 100 && this.energy > 0) {
                 this.playAnimation(this.IMAGES_ATTACK);
                 this.moveLeft();
-            } else if (this.energy == 100) {
-                this.playAnimation(this.IMAGES_IDLE);
-            }
+            } else if (this.energy == 100) this.playAnimation(this.IMAGES_IDLE);
         }, 200)
     };
 
+    /**
+     * Cancel condition when boss dies, shows game over screen
+     */
     endbossDeadGameOver() {
         this.playAnimation(this.IMAGES_DEAD);
         this.energy = 0;
@@ -84,6 +86,9 @@ class Endboss extends MovableObject {
         }, 3000);
     }
 
+    /**
+     * Animates the boss when hit by a bottle for 300ms
+     */
     bossHitAnimation() {
         this.hittingBoss = true;
         setTimeout(() => {

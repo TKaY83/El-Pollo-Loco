@@ -35,13 +35,19 @@ class World {
         this.level.endboss[0].world = this;
     }
 
+    /**
+     * checks collisions every 30ms
+     */
     collisionsInterval() {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 50);
+        }, 30);
     }
 
+    /**
+     * starts the game
+     */
     run() {
         this.collisionsInterval();
         this.hitAnimationIntervall();
@@ -78,6 +84,10 @@ class World {
         return this.keyboard.SPACE && this.alreadyThrowed == false
     }
 
+    /**
+     * Checks whether the bottle has already been thrown. 
+     * If not, the bottle is thrown
+     */
     throwBottle() {
         this.alreadyThrowed = true;
         this.throwSoundPlay();
@@ -92,7 +102,7 @@ class World {
     preventBottleSpaming() {
         setTimeout(() => {
             this.alreadyThrowed = false;
-        }, 300);
+        }, 400);
     }
 
     throwSoundPlay() {
@@ -105,7 +115,7 @@ class World {
         setInterval(() => {
             let hitAnimation = this.checkHitingEndboss();
             clearInterval(hitAnimation);
-        }, 300);
+        }, 30);
     }
 
     checkCollisions() {
@@ -119,12 +129,14 @@ class World {
     ckeckBossCollision() {
         setInterval(() => {
             if (this.character.isColliding(this.level.endboss[0])) {
-                this.character.hit();
                 this.characterIsDead();
             }
-        }, 500);
+        }, 200);
     }
 
+    /**
+     * checks if boss is hit as long as he is still alive
+     */
     checkHitingEndboss() {
         if (!this.level.endboss.endbossDead) {
             this.throwableObjects.forEach(throwableObject => {
@@ -160,6 +172,9 @@ class World {
         this.level.endboss[0].bossHitAnimation();
     }
 
+    /**
+     * kills the boss
+     */
     endbossIsDead() {
         this.level.endboss.endbossDead = true;
         setTimeout(() => {
@@ -211,7 +226,7 @@ class World {
     killBigChickenPlay() {
         this.kill_chicken.currentTime = 0;
         this.kill_chicken.play();
-        this.kill_chicken.volume = 0.05;
+        this.kill_chicken.volume = 0.3;
     }
 
     checkCollisionWithSmallChicken() {
@@ -265,6 +280,9 @@ class World {
         this.collecting_bottle_sound.play();
     }
 
+    /**
+     * draws all objects on the canvas
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -314,6 +332,10 @@ class World {
         if (mo.otherDirection) this.flipImageBack(mo);
     }
 
+    /**
+     * turns the image
+     * @param {string} mo 
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -321,6 +343,10 @@ class World {
         mo.x = mo.x * -1
     }
 
+    /**
+     * turns the image back
+     * @param {string} mo 
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();

@@ -94,6 +94,9 @@ class Character extends MovableObject {
         this.characterAnimationInterval();
     }
 
+    /**
+     * moves the Character
+     */
     characterMoveInterval(){
         setInterval(() => {
             this.walking_sound.pause();
@@ -106,6 +109,9 @@ class Character extends MovableObject {
         }, 1000 / 60);
     }
 
+    /**
+     * animates the cracter
+     */
     characterAnimationInterval(){
         let characterImages = setInterval(() => {
             if (this.isDead())
@@ -117,6 +123,10 @@ class Character extends MovableObject {
         }, 200);
     }
 
+    /**
+     * stops the game when it's over
+     * @param {string} characterImages 
+     */
     stopGame(characterImages) {
         this.playAnimation(this.IMAGES_DEAD);
         this.world.background_music.pause();
@@ -155,6 +165,10 @@ class Character extends MovableObject {
         this.jump_sound.play();
     }
 
+    /**
+     * @returns animated sleeping character 
+     * after 5 sec without action
+     */
     bored() {
         let timePassed = new Date().getTime() - lastAction;
         timePassed = timePassed / 1000

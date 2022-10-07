@@ -27,6 +27,11 @@ class DrawableObject {
         });
     }
 
+    /**
+     * drawes a frame arround the objects hitbox,
+     * only needed for development
+     * @param {any} ctx 
+     */
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
             ctx.beginPath();
@@ -35,5 +40,17 @@ class DrawableObject {
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.stroke();
         }
+    }
+    /**
+     * calculates the percentage of the bars
+     * @returns 
+     */
+    resolveImageIndex() {
+        if (this.percentage >= 100) return 5;
+        else if (this.percentage >= 80) return 4;
+        else if (this.percentage >= 60) return 3;
+        else if (this.percentage >= 40) return 2;
+        else if (this.percentage >= 20) return 1;
+        else return 0
     }
 }

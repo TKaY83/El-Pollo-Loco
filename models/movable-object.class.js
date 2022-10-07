@@ -11,7 +11,7 @@ class MovableObject extends DrawableObject {
         top: 0,
         bottom: 0,
         left: 0,
-        right:0
+        right: 0
     };
 
     applyGravity() {
@@ -53,23 +53,27 @@ class MovableObject extends DrawableObject {
     /**
      * 
      * @param {MovableObject} mo 
-     * @returns collisions
+     * @returns calculates the different collisions
      */
-
     isColliding(mo) {
-        if (this instanceof Character) {
-            return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-                this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-                this.x + this.offset.left < mo.x + mo.width -mo.offset.right &&
-                this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
-        } else {
-            return this.x + this.width > mo.x &&
-                this.y + this.height > mo.y &&
-                this.x < mo.x &&
-                this.y < mo.y + mo.height;
+        if (mo) {
+            if (this instanceof Character) {
+                return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+                    this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+                    this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+                    this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+            } else {
+                return this.x + this.width > mo.x &&
+                    this.y + this.height > mo.y &&
+                    this.x < mo.x &&
+                    this.y < mo.y + mo.height;
+            }
         }
     }
 
+    /**
+     * hits the charakter
+     */
     hit() {
         this.energy -= 5;
         if (this.energy < 0) {
@@ -79,12 +83,20 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * calculates the time for the hurt animation
+     * @returns 
+     */
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
         timePassed = timePassed / 1000
         return timePassed < 0.5;
     }
 
+    /**
+     * kills the charakter
+     * @returns 
+     */
     isDead() {
         return this.energy == 0;
     }
