@@ -20,7 +20,7 @@ class World {
     hurt_sound = new Audio('audio/hurt.mp3')
     kill_chicken = new Audio('audio/fart.mp3')
     endboss_hurt = new Audio('audio/endboos_hurt.mp3')
-
+    endboss = this.level.endbosses[0];
     constructor(canvas, keyboard,) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -32,7 +32,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        this.level.endboss[0].world = this;
+        this.endboss.world = this;
     }
 
     /**
@@ -128,7 +128,7 @@ class World {
 
     ckeckBossCollision() {
         setInterval(() => {
-            if (this.character.isColliding(this.level.endboss[0])) {
+            if (this.character.isColliding(this.endboss)) {
                 this.characterIsDead();
             }
         }, 200);
@@ -138,12 +138,12 @@ class World {
      * checks if boss is hit as long as he is still alive
      */
     checkHitingEndboss() {
-        if (!this.level.endboss.endbossDead) {
+        if (!this.level.endbosses.endbossDead) {
             this.throwableObjects.forEach(throwableObject => {
-                if (this.level.endboss[0].isColliding(throwableObject)) {
+                if (this.endboss.isColliding(throwableObject)) {
                     this.hittingEndbos();
                 }
-                if (this.level.endboss[0].energy == 0) {
+                if (this.endboss.energy == 0) {
                     this.endbossIsDead(throwableObject);
                 }
             });
@@ -168,17 +168,17 @@ class World {
         this.endboss_hurt.currentTime = 0;
         this.endboss_hurt.play();
         this.endboss_hurt.volume = 0.2;
-        this.level.endboss[0].energy -= 20;
-        this.level.endboss[0].bossHitAnimation();
+        this.endboss.energy -= 20;
+        this.endboss.bossHitAnimation();
     }
 
     /**
      * kills the boss
      */
     endbossIsDead() {
-        this.level.endboss.endbossDead = true;
+        this.level.endbosses.endbossDead = true;
         setTimeout(() => {
-            this.level.endboss.splice(this.level.endboss[0]);
+            this.level.endbosses.splice(this.endboss);
         }, 3000);
     }
 
@@ -311,7 +311,7 @@ class World {
 
     addAllObjects() {
         this.addObjectsToMap(this.level.bigChicken);
-        this.addObjectsToMap(this.level.endboss);
+        this.addObjectsToMap(this.level.endbosses);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.collectableBottle);
