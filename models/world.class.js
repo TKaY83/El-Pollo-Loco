@@ -13,6 +13,7 @@ class World {
     bottleBar = new BottleBar();
     throwableObjects = [];
     alreadyThrowed = false;
+    alreadyHitted = false;
     throw_sound = new Audio('audio/throw.mp3');
     background_music = new Audio('audio/background_music.mp3');
     collecting_coin_sound = new Audio('audio/coin.mp3');
@@ -93,8 +94,8 @@ class World {
             this.alreadyThrowed = true;
             this.throwSoundPlay();
             let bottle = new ThrowableObject(
-                this.character.x + 100, 
-                this.character.y + 100, 
+                this.character.x + 100,
+                this.character.y + 100,
                 this);
             this.throwableObjects.push(bottle);
             this.bottleAmount--;
@@ -111,6 +112,12 @@ class World {
         }, 400);
     }
 
+    preventBossHitSpaming() {
+        setTimeout(() => {
+            this.alreadyHitted = false;
+        }, 300);
+    }
+
     throwSoundPlay() {
         this.throw_sound.currentTime = 0;
         this.throw_sound.play();
@@ -123,7 +130,7 @@ class World {
         setInterval(() => {
             let hitAnimation = this.checkHitingEndboss();
             clearInterval(hitAnimation);
-        }, 30);
+        }, 100);
     }
 
     checkCollisions() {
@@ -150,6 +157,8 @@ class World {
             this.throwableObjects.forEach(throwableObject => {
                 if (this.endboss.isColliding(throwableObject)) {
                     this.hittingEndbos();
+                    this.alreadyHitted = true;
+                    this.preventBossHitSpaming();
                 }
                 if (this.endboss.energy == 0) {
                     this.endbossIsDead();
@@ -171,12 +180,18 @@ class World {
      * @param {Array} throwableObject 
      */
     hittingEndbos(throwableObject) {
-        this.endboss_hurt.currentTime = 0;
-        this.endboss_hurt.play();
-        this.endboss_hurt.volume = 0.2;
-        this.endboss.energy -= 20;
-        this.endboss.bossHitAnimation();
-        this.throwableObjects.splice(this.throwableObjects.indexOf(throwableObject), 1);
+        if (!this.alreadyHitted) {
+            this.endboss_hurt.currentTime = 0;
+            this.endboss_hurt.play();
+            this.endboss_hurt.volume = 0.2;
+            this.endboss.energy -= 20;
+            this.endboss.bossHitAnimation();
+            setTimeout(() => {
+                this.throwableObjects.splice(this.throwableObjects.indexOf(throwableObject), 1);
+
+            }, 200);
+        }
+        
     }
 
     /**
@@ -270,9 +285,9 @@ class World {
         });
     }
 
-    characterCollidingWithsSmalChicken(smallEnemy){
-        return this.character.isColliding(smallEnemy) 
-        && !this.level.endbosses.endbossDead
+    characterCollidingWithsSmalChicken(smallEnemy) {
+        return this.character.isColliding(smallEnemy)
+            && !this.level.endbosses.endbossDead
     }
 
     /**

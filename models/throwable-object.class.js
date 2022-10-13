@@ -59,7 +59,7 @@ class ThrowableObject extends MovableObject {
                 this.spashSoundPlay();
                 clearInterval(clearBottle);
             }
-        }, 50);
+        }, 100);
     }
 
     spashSoundPlay() {
