@@ -97,28 +97,52 @@ class Character extends MovableObject {
     /**
      * moves the Character
      */
-    characterMoveInterval(){
+    characterMoveInterval() {
         setInterval(() => {
             this.walking_sound.pause();
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) this.runToRight();
-            if (this.isAboveGround()) this.walking_sound.pause();
-            if (this.world.keyboard.LEFT && this.x > -665) this.runToLeft();
-            if (this.isAboveGround()) this.walking_sound.pause();
-            if (this.world.keyboard.UP && !this.isAboveGround()) this.checkJump();
+            if (this.canMoveRight())
+                this.runToRight();
+            if (this.isAboveGround())
+                this.walking_sound.pause();
+            if (this.canMoveLeft())
+                this.runToLeft();
+            if (this.isAboveGround())
+                this.walking_sound.pause();
+            if (this.canJump())
+                this.checkJump();
             this.world.camera_x = -this.x + 50;
         }, 1000 / 60);
+    }
+
+    canMoveRight() {
+        return this.world.keyboard.RIGHT
+            && this.x < this.world.level.level_end_x
+    }
+
+    canMoveLeft() {
+        return this.world.keyboard.LEFT
+            && this.x > -665
+    }
+
+    canJump() {
+        return this.world.keyboard.UP
+            && !this.isAboveGround()
     }
 
     /**
      * animates the cracter
      */
-    characterAnimationInterval(){
+    characterAnimationInterval() {
         let characterImages = setInterval(() => {
             if (this.isDead())
-                this.stopGame(characterImages); else if (this.isHurt())
-                this.playAnimation(this.IMAGES_HURT); else if (this.isAboveGround())
-                this.playAnimation(this.IMAGES_JUMPING); else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)
-                this.playAnimation(this.IMAGES_WALKING); else if (this.bored())
+                this.stopGame(characterImages);
+            else if (this.isHurt())
+                this.playAnimation(this.IMAGES_HURT);
+            else if (this.isAboveGround())
+                this.playAnimation(this.IMAGES_JUMPING);
+            else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)
+                this.playAnimation(this.IMAGES_WALKING);
+            else if (this.bored())
                 this.playAnimation(this.IMAGES_LONG_IDLE); else this.playAnimation(this.IMAGES_IDLE);
         }, 200);
     }
@@ -160,13 +184,13 @@ class Character extends MovableObject {
         this.walking_sound.play();
     }
 
-    jumpSoundPlay(){
+    jumpSoundPlay() {
         this.jump_sound.volume = 0.1;
         this.jump_sound.play();
     }
 
     /**
-     * @returns animated sleeping character 
+     * @returns animate sleeping character,
      * after 5 sec without action
      */
     bored() {

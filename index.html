@@ -53,14 +53,15 @@
         </div>
 
         <div class="sound" id="sound">
-            <img id="off" onclick="world.backgroundMusicPauseIcon();" style="display: block" src="img/volume_off.png">
-            <img id="on" onclick="world.backgroundMusicplayIcon();" style="display: none" src="img/volume_up.png">
+            <img id="off" onclick="world.muteBackgroundSound();" style="display: block" src="img/volume_up.png">
+            <img id="on" onclick="world.playBackgroundSound();" style="display: none" src="img/volume_off.png">
         </div>
 
         <div class="replay" style="display: none;" id="replay">
             <img onclick="tryAgain();" src="img/replay.png">
         </div>
         <div id="end-screen" style="display: none;" class="end-screen">
+            <h1 class="end-screen-button" onclick="tryAgain();">Try Again</h1>
         </div>
         <canvas id="canvas" width="720" height="480"></canvas>
     </div>

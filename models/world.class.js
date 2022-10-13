@@ -61,14 +61,14 @@ class World {
         this.background_music.loop = true;
     }
 
-    backgroundMusicPauseIcon() {
+    muteBackgroundSound() {
         this.background_music.pause();
         document.getElementById('off').style.display = 'none';
         document.getElementById('on').style.display = 'block';
 
     }
 
-    backgroundMusicplayIcon() {
+    playBackgroundSound() {
         this.background_music.play();
         document.getElementById('on').style.display = 'none';
         document.getElementById('off').style.display = 'block';
@@ -89,14 +89,20 @@ class World {
      * If not, the bottle is thrown
      */
     throwBottle() {
-        this.alreadyThrowed = true;
-        this.throwSoundPlay();
-        let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this);
-        this.throwableObjects.push(bottle);
-        this.bottleAmount--;
-        this.character.isThrowingBottle();
-        this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
-        this.preventBottleSpaming();
+        if (!this.character.otherDirection) {
+            this.alreadyThrowed = true;
+            this.throwSoundPlay();
+            let bottle = new ThrowableObject(
+                this.character.x + 100, 
+                this.character.y + 100, 
+                this);
+            this.throwableObjects.push(bottle);
+            this.bottleAmount--;
+            this.character.isThrowingBottle();
+            this.bottleBar.setPercentage(this.character.bottlesCollectedPercent);
+            this.preventBottleSpaming();
+        }
+
     }
 
     preventBottleSpaming() {
@@ -110,7 +116,9 @@ class World {
         this.throw_sound.play();
         this.throw_sound.volume = 0.1;
     }
-
+    /**
+     * plays the hitting animation from the endboss
+     */
     hitAnimationIntervall() {
         setInterval(() => {
             let hitAnimation = this.checkHitingEndboss();
@@ -144,36 +152,35 @@ class World {
                     this.hittingEndbos();
                 }
                 if (this.endboss.energy == 0) {
-                    this.endbossIsDead(throwableObject);
+                    this.endbossIsDead();
                 }
             });
         }
     }
 
+
+    /**
+     * kills the character
+     */
     characterIsDead() {
         this.character.energy = 0;
-        if (!this.character.isDead()) {
-            this.hurt_sound.play();
-            this.hurt_sound.volume = 0.2;
-        }
     }
 
     /**
      * 
      * @param {Array} throwableObject 
      */
-
     hittingEndbos(throwableObject) {
-        this.throwableObjects.splice(this.throwableObjects.indexOf(throwableObject), 1);
         this.endboss_hurt.currentTime = 0;
         this.endboss_hurt.play();
         this.endboss_hurt.volume = 0.2;
         this.endboss.energy -= 20;
         this.endboss.bossHitAnimation();
+        this.throwableObjects.splice(this.throwableObjects.indexOf(throwableObject), 1);
     }
 
     /**
-     * kills the boss
+     * kills the boss and delete it from the array
      */
     endbossIsDead() {
         this.level.endbosses.endbossDead = true;
@@ -182,9 +189,12 @@ class World {
         }, 3000);
     }
 
+    /**
+     * checkes the collision with the big chicken
+     */
     checkCollisionWithBigChicken() {
         this.level.bigChicken.forEach((bigEnemy) => {
-            if (this.bigChickenDead(bigEnemy)) {
+            if (this.bigChickenIsDead(bigEnemy)) {
                 this.killBigChicken(bigEnemy);
                 this.killBigChickenPlay();
             }
@@ -194,6 +204,11 @@ class World {
         });
     }
 
+
+    /**
+     * 
+     * Kills big Chicken and delete it from array
+     */
     killBigChicken(bigEnemy) {
         bigEnemy.speed = 0;
         bigEnemy.energy = 0;
@@ -202,18 +217,28 @@ class World {
         }, 2000);
     }
 
-    bigChickenDead(bigEnemy) {
+
+    /**
+     * 
+     * @returns condition
+     */
+    bigChickenIsDead(bigEnemy) {
         return !bigEnemy.isDead()
             && this.character.isColliding(bigEnemy)
             && this.character.isAboveGround()
             && this.character.speedY < 0
     }
 
+    /**
+     * 
+     * @returns condition
+     */
     enemyHurtCaracter(bigEnemy) {
         return this.character.isColliding(bigEnemy)
             && !this.character.isAboveGround()
             && !bigEnemy.isDead()
             && !this.character.isDead()
+            && !this.level.endbosses.endbossDead
     }
 
     characterHurtPlay() {
@@ -229,9 +254,12 @@ class World {
         this.kill_chicken.volume = 0.3;
     }
 
+    /**
+     * checkes collision with the small chaicken
+     */
     checkCollisionWithSmallChicken() {
         this.level.smallChicken.forEach((smallEnemy) => {
-            if (this.character.isColliding(smallEnemy)) {
+            if (this.characterCollidingWithsSmalChicken(smallEnemy)) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
                 if (!this.character.isDead()) {
@@ -242,6 +270,14 @@ class World {
         });
     }
 
+    characterCollidingWithsSmalChicken(smallEnemy){
+        return this.character.isColliding(smallEnemy) 
+        && !this.level.endbosses.endbossDead
+    }
+
+    /**
+     * collects coins
+     */
     checkCollisionWithCoin() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
@@ -267,6 +303,10 @@ class World {
         });
     }
 
+    /**
+     * @param {indexOf Array} bottle 
+     * collects the botte and delete from array
+     */
     collectBottle(bottle) {
         this.bottleAmount++;
         this.level.collectableBottle.splice(this.level.collectableBottle.indexOf(bottle), 1);

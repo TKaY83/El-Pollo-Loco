@@ -8,8 +8,6 @@ class ThrowableObject extends MovableObject {
     ];
     
     IMAGES_SPLASHING_BOTTLE = [
-        'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 7.png',
-        'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 8.png',
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 9.png',
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 10.png',
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 11.png',
@@ -36,6 +34,9 @@ class ThrowableObject extends MovableObject {
         this.animate();
     }
 
+    /**
+     * calculates the throwing distance
+     */
     throw() {
         if (this.world.bottleAmount > 0) {
             this.speedY = 20;
@@ -45,16 +46,20 @@ class ThrowableObject extends MovableObject {
             }, 1000 / 60);
         }
     }
-
+    
+    /**
+     * animates the flying ans splashing bottle
+     */
     animate() {
         let clearBottle = setInterval(() => {
-            if (this.y < 320) this.playAnimation(this.IMAGES_FLYING_BOTTLE);
+            if (this.y < 320 && !this.isColliding(this.world.endboss)) 
+                this.playAnimation(this.IMAGES_FLYING_BOTTLE);
             else {
                 this.playAnimation(this.IMAGES_SPLASHING_BOTTLE);
                 this.spashSoundPlay();
                 clearInterval(clearBottle);
             }
-        }, 90);
+        }, 50);
     }
 
     spashSoundPlay() {

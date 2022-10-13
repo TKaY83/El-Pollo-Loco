@@ -33,7 +33,7 @@ class DrawableObject {
      * @param {any} ctx 
      */
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+        if (this.canShowFrame()) {
             ctx.beginPath();
             ctx.lineWidth = '2';
             ctx.strokeStyle = 'blue';
@@ -41,9 +41,16 @@ class DrawableObject {
             ctx.stroke();
         }
     }
+
+    canShowFrame(){
+        return this instanceof Character 
+        || this instanceof Chicken 
+        || this instanceof Endboss;
+    }
+
     /**
-     * calculates the percentage of the bars
-     * @returns 
+     * 
+     * @returns calculates the percentage of the bars
      */
     resolveImageIndex() {
         if (this.percentage >= 100) return 5;

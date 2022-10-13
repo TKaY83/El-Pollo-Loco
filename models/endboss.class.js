@@ -93,7 +93,7 @@ class Endboss extends MovableObject {
         this.hittingBoss = true;
         setTimeout(() => {
             this.hittingBoss = false;
-        }, 300);
+        }, 200);
     };
 
 };
